@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _jumpForce = 7f;
     [SerializeField] private float _dashSpeed = 30f;
     [SerializeField] private float _dashDuration = 0.2f;
+    [SerializeField] private Animator _playerAnim;
 
     private Rigidbody2D _rb;
     private Vector2 _moveInput;
@@ -35,6 +36,15 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+
+        if (_isGrounded == true)
+        {
+            _playerAnim.SetBool("IsJump", false);
+        }
+        else
+        {
+            _playerAnim.SetBool("IsJump", true);
+        }
     }
 
     private void Move()
@@ -45,6 +55,15 @@ public class PlayerController : MonoBehaviour
         float moveDirection = _moveInput.x;
 
         _rb.velocity = new Vector2(moveDirection * _moveSpeed, _rb.velocity.y);
+
+        if (moveDirection == 0)
+        {
+            _playerAnim.SetBool("IsRunning", false);
+        }
+        else
+        {
+            _playerAnim.SetBool("IsRunning", true);
+        }
     }
 
     #region Dash
@@ -72,6 +91,7 @@ public class PlayerController : MonoBehaviour
         if (_isGrounded)
         {
             _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
+            _playerAnim.SetTrigger("TakeOf");
         }
     }
 
