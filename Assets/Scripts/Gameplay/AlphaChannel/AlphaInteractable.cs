@@ -19,17 +19,15 @@ public class AlphaInteractable : MonoBehaviour
         if (_isInteractive)
         {   
             var color = GetComponent<SpriteRenderer>().color;
-            GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, newAlpha);
+            GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, Mathf.Clamp01(color.a + newAlpha));
             
             if (newAlpha == 0)
             {
-                GetComponent<BoxCollider2D>().enabled = false;
-                //GetComponent<BoxCollider2D>().isTrigger = true;
+                GetComponent<BoxCollider2D>().isTrigger = true;
             }
             else
             {
-                GetComponent<BoxCollider2D>().enabled = true;
-                //GetComponent<BoxCollider2D>().isTrigger = false;
+                GetComponent<BoxCollider2D>().isTrigger = false;
             }
         }
     }

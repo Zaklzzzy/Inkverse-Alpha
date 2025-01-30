@@ -35,32 +35,27 @@ public class AlphaInteractive : MonoBehaviour
                 _currentInteractable = interactable;
                 SelectObject();
             }
-            else
-            {
-                DeselectObject();
-            }
         }
-        else
+        else if (_currentInteractable != null)
         {
-            Debug.Log("NONE");
+            DeselectObject();
+            _currentInteractable = null;
         }
     }
 
-/*    public void CatchScroll(InputAction.CallbackContext context)
+    public void CatchScroll(InputAction.CallbackContext context)
     {
-        if (_currentInteractable != null)
+        if (context.started && _currentInteractable != null)
         {
-            float alphaValue = 0;
-            var scrollInput = _input.Gameplay.Scroll.ReadValue<float>();
+            var scrollInput = context.ReadValue<float>();
 
-            alphaValue += scrollInput * 0.1f;
-            alphaValue = Mathf.Clamp01(alphaValue);
+            //alphaValue += scrollInput * 1f;
+            //alphaValue = Mathf.Clamp01(scrollInput);
 
-            _currentInteractable.SetAlphaValue(alphaValue);
-
-            Debug.Log($"Scroll: {scrollInput}, Alpha: {alphaValue}");
+            _currentInteractable.SetAlphaValue(scrollInput == -1 ? -0.097f : 0.097f );
         }
-    }*/
+    }
+
     public void SelectObject()
     {
         Debug.Log("SelectObject");
