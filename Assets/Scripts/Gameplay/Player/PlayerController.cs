@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,8 +10,10 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] private float _moveSpeed = 10f;
     [SerializeField] private float _jumpForce = 7f;
+    [Header("Dash Settings")]
     [SerializeField] private float _dashSpeed = 30f;
     [SerializeField] private float _dashDuration = 0.2f;
+    [SerializeField] private float _dashCooldown = 1.5f;
     [Header("Rotate")]
     [SerializeField] private GameObject _player;
     [Header("Animation")]
@@ -20,7 +21,10 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D _rb;
     private Vector2 _moveInput;
+    
     private bool _isGrounded = false;
+
+    private bool _isDashReady = true;
     private bool _isDashing = false;
 
     private GameInput _input;
@@ -78,7 +82,7 @@ public class PlayerController : MonoBehaviour
             _playerAnim.SetBool("IsRunning", true);
         }
 
-        if (_isGrounded == true)
+        if (_isGrounded)
         {
             _playerAnim.SetBool("IsJump", false);
         }
@@ -91,10 +95,14 @@ public class PlayerController : MonoBehaviour
     #region Dash
     private void Dash(InputAction.CallbackContext context)
     {
-        if (!_isDashing) StartCoroutine(DashCoroutine());
+        if (!_isDashReady) return;
+        else if (!_isDashing) StartCoroutine(DashCoroutine());
     }
+
     private IEnumerator DashCoroutine()
     {
+        _isDashReady = false;
+
         _isDashing = true;
         float originalGravity = _rb.gravityScale;
         _rb.gravityScale = 0.5f;
@@ -104,6 +112,15 @@ public class PlayerController : MonoBehaviour
 
         _rb.gravityScale = originalGravity;
         _isDashing = false;
+
+        StartCoroutine(DashCooldown());
+    }
+
+    private IEnumerator DashCooldown()
+    {
+        yield return new WaitForSeconds(_dashCooldown);
+
+        _isDashReady = true;
     }
     #endregion
 

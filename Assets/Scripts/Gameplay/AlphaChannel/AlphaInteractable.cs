@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AlphaInteractable : MonoBehaviour
 {
-    private bool _isHiden = true;
+    private bool _isHiden = false; //Temporary
     private bool _isInteractive = false;
 
     public void Unhide()
@@ -14,15 +12,15 @@ public class AlphaInteractable : MonoBehaviour
 
     public void EnableInteraction()
     {
-        if (_isHiden == false) _isInteractive = true;
+        if (!_isHiden) _isInteractive = true;
     }
     public void DisableInteraction()
     {
-        if(_isHiden == false) _isInteractive = false;
+        if(!_isHiden) _isInteractive = false;
     }
     public void SetAlphaValue(float newAlpha)
     {
-        if (_isInteractive && _isHiden == false)
+        if (_isInteractive && !_isHiden)
         {   
             var color = GetComponent<SpriteRenderer>().color;
             GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, Mathf.Clamp((color.a + newAlpha), 0.03f, 1f));
