@@ -4,19 +4,25 @@ using UnityEngine;
 
 public class AlphaInteractable : MonoBehaviour
 {
+    private bool _isHiden = true;
     private bool _isInteractive = false;
+
+    public void Unhide()
+    {
+        _isHiden = false;
+    }
 
     public void EnableInteraction()
     {
-        _isInteractive = true;
+        if (_isHiden == false) _isInteractive = true;
     }
     public void DisableInteraction()
     {
-        _isInteractive = false;
+        if(_isHiden == false) _isInteractive = false;
     }
     public void SetAlphaValue(float newAlpha)
     {
-        if (_isInteractive)
+        if (_isInteractive && _isHiden == false)
         {   
             var color = GetComponent<SpriteRenderer>().color;
             GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, Mathf.Clamp((color.a + newAlpha), 0.03f, 1f));
