@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _jumpForce = 7f;
     [SerializeField] private float _dashSpeed = 30f;
     [SerializeField] private float _dashDuration = 0.2f;
+    [Header("Rotate")]
+    [SerializeField] private GameObject _player;
+    [Header("Animation")]
     [SerializeField] private Animator _playerAnim;
 
     private Rigidbody2D _rb;
@@ -36,15 +39,6 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-
-        if (_isGrounded == true)
-        {
-            _playerAnim.SetBool("IsJump", false);
-        }
-        else
-        {
-            _playerAnim.SetBool("IsJump", true);
-        }
     }
 
     private void Move()
@@ -56,6 +50,25 @@ public class PlayerController : MonoBehaviour
 
         _rb.velocity = new Vector2(moveDirection * _moveSpeed, _rb.velocity.y);
 
+        Flip(moveDirection);
+        Animate(moveDirection);
+    }
+
+    private void Flip(float moveDirection)
+    {
+        if(moveDirection < 0)
+        {
+            _player.transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        else if(moveDirection > 0)
+        {
+            _player.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+    }
+
+    private void Animate(float moveDirection)
+    {
+
         if (moveDirection == 0)
         {
             _playerAnim.SetBool("IsRunning", false);
@@ -63,6 +76,15 @@ public class PlayerController : MonoBehaviour
         else
         {
             _playerAnim.SetBool("IsRunning", true);
+        }
+
+        if (_isGrounded == true)
+        {
+            _playerAnim.SetBool("IsJump", false);
+        }
+        else
+        {
+            _playerAnim.SetBool("IsJump", true);
         }
     }
 
