@@ -21,8 +21,9 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D _rb;
     private Vector2 _moveInput;
-    
-    private bool _isGrounded = false;
+
+    [Header("Debug")]
+    [SerializeField] private bool _isGrounded = false;
 
     private bool _isDashReady = true;
     private bool _isDashing = false;
