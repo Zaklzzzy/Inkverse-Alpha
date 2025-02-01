@@ -105,7 +105,8 @@ public class PlayerController : MonoBehaviour
 
         _isDashing = true;
         float originalGravity = _rb.gravityScale;
-        _rb.gravityScale = 0.5f;
+        _rb.gravityScale = originalGravity/3;
+        _playerAnim.SetTrigger("Dash");
         _rb.velocity = new Vector2(transform.localScale.x * _dashSpeed * _moveInput.x, 0);
 
         yield return new WaitForSeconds(_dashDuration);

@@ -1475,8 +1475,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 15
   _jumpForce: 18
-  _dashSpeed: 50
+  _dashSpeed: 70
   _dashDuration: 0.2
+  _dashCooldown: 1
   _player: {fileID: 467392002}
   _playerAnim: {fileID: 467392004}
 --- !u!50 &1294092756
