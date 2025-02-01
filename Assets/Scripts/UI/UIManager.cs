@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Gameplay")]
     [SerializeField] private Image _dashCooldownImage;
+    [SerializeField] private Image[] _bullets;
 
     private void Awake()
     {
@@ -22,6 +23,11 @@ public class UIManager : MonoBehaviour
     }
 
     #region Gameplay
+    public void ActivateCursor(bool activeState)
+    {
+        Cursor.visible = activeState;
+    }
+
     public IEnumerator CooldownIndicate(float cooldownDuration)
     {
         float timer = 0f;
@@ -34,7 +40,15 @@ public class UIManager : MonoBehaviour
             yield return null;
         }
 
-        _dashCooldownImage.fillAmount = 1f;
+        _dashCooldownImage.fillAmount = 0f;
+    }
+
+    public void ShowBulletCount(int count)
+    {
+        for(int i = count - 1; i < _bullets.Length; i++)
+        {
+            _bullets[i].color = Color.black;
+        }
     }
     #endregion
 

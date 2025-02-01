@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class AlphaInteractable : MonoBehaviour
 {
-    private bool _isHiden = false; //Temporary
+    private bool _isHiden = true;
     private bool _isInteractive = false;
 
+    public bool GetHideState() { return _isHiden; }
     public void Unhide()
     {
         _isHiden = false;
@@ -16,7 +17,7 @@ public class AlphaInteractable : MonoBehaviour
     }
     public void DisableInteraction()
     {
-        if(!_isHiden) _isInteractive = false;
+        if (!_isHiden) _isInteractive = false;
     }
     public void SetAlphaValue(float newAlpha)
     {
