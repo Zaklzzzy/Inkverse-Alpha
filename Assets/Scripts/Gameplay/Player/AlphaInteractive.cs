@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class AlphaInteractive : MonoBehaviour
 {
     [SerializeField, Range(0, 10)] private int _bulletsCount = 5;
-    
+    [SerializeField] private ParticleSystem _gunParticles;
     private AlphaInteractable _currentInteractable;
 
     private GameInput _input;
@@ -70,6 +70,8 @@ public class AlphaInteractive : MonoBehaviour
         if(context.started)
         {
             if (_bulletsCount == 0) return;
+
+            _gunParticles.Play();
 
             Vector2 cursorPosition = Camera.main.ScreenToWorldPoint(_input.Gameplay.Cursor.ReadValue<Vector2>());
             var radius = 1.75f;
