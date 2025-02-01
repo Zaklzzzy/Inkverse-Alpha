@@ -120,6 +120,7 @@ public class PlayerController : MonoBehaviour
         _isDashing = false;
 
         StartCoroutine(DashCooldown());
+        StartCoroutine(UIManager.Instance.CooldownIndicate(_dashCooldown));
     }
 
     private IEnumerator DashCooldown()
