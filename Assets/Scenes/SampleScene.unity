@@ -376,6 +376,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &82322746
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 82322747}
+  m_Layer: 0
+  m_Name: GroundCheckPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &82322747
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82322746}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -2.7, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 467392003}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &257791714
 GameObject:
   m_ObjectHideFlags: 0
@@ -477,9 +508,9 @@ GameObject:
   - component: {fileID: 339418104}
   - component: {fileID: 339418103}
   - component: {fileID: 339418102}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Square (3)
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -632,6 +663,7 @@ Transform:
   - {fileID: 257791715}
   - {fileID: 1360672304}
   - {fileID: 2045030118}
+  - {fileID: 82322747}
   m_Father: {fileID: 1294092753}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &467392004
@@ -745,7 +777,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.5328, y: -1.14, z: -10}
+  m_LocalPosition: {x: -5.5328, y: -0.97, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1541,7 +1573,7 @@ Transform:
   m_GameObject: {fileID: 1003539891}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.53, y: -0.42, z: 1}
+  m_LocalPosition: {x: -23.11, y: 10.56, z: 1}
   m_LocalScale: {x: 0.71593845, y: 0.71593845, z: 0.71593845}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1570,9 +1602,9 @@ GameObject:
   - component: {fileID: 1023577798}
   - component: {fileID: 1023577797}
   - component: {fileID: 1023577796}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Square (2)
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1703,9 +1735,9 @@ GameObject:
   - component: {fileID: 1078056152}
   - component: {fileID: 1078056151}
   - component: {fileID: 1078056150}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Square (4)
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1834,9 +1866,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1294092753}
+  - component: {fileID: 1294092755}
   - component: {fileID: 1294092757}
   - component: {fileID: 1294092756}
-  - component: {fileID: 1294092755}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1853,7 +1885,7 @@ Transform:
   m_GameObject: {fileID: 1294092752}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.5328, y: -1.14, z: 0}
+  m_LocalPosition: {x: -5.5328, y: -0.97, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -1874,6 +1906,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 9
   _jumpForce: 17
+  _groundCheckPoint: {fileID: 82322747}
+  _groundCheckRadius: 0.2
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
   _dashSpeed: 60
   _dashDuration: 0.2
   _dashCooldown: 1
@@ -2225,7 +2262,7 @@ Transform:
   m_GameObject: {fileID: 1572358262}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.5328, y: -1.14, z: -10}
+  m_LocalPosition: {x: -5.5328, y: -0.97, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2330,7 +2367,7 @@ GameObject:
   - component: {fileID: 1765225280}
   - component: {fileID: 1765225279}
   - component: {fileID: 1765225278}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Square (1)
   m_TagString: Ground
   m_Icon: {fileID: 0}

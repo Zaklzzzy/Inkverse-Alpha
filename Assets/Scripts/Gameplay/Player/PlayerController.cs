@@ -9,7 +9,11 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movement Settings")]
     [SerializeField] private float _moveSpeed = 10f;
+    [Header("Jump Settings")]
     [SerializeField] private float _jumpForce = 7f;
+    [SerializeField] private Transform _groundCheckPoint;
+    [SerializeField] private float _groundCheckRadius = 0.2f;
+    [SerializeField] private LayerMask _groundLayer;
     [Header("Dash Settings")]
     [SerializeField] private float _dashSpeed = 30f;
     [SerializeField] private float _dashDuration = 0.2f;
@@ -22,8 +26,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rb;
     private Vector2 _moveInput;
 
-    [Header("Debug")]
-    [SerializeField] private bool _isGrounded = false;
+    private bool _isGrounded = false;
 
     private bool _isDashReady = true;
     private bool _isDashing = false;
@@ -43,6 +46,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        CheckGround();
         Move();
     }
 
@@ -135,21 +139,9 @@ public class PlayerController : MonoBehaviour
             _playerAnim.SetTrigger("TakeOf");
         }
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void CheckGround()
     {
-        if(collision.gameObject.CompareTag("Ground"))
-        {
-            _isGrounded = true;
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            _isGrounded = false;
-        }
+        _isGrounded = Physics2D.OverlapCircle(_groundCheckPoint.position, _groundCheckRadius, _groundLayer);
     }
     #endregion
 }
