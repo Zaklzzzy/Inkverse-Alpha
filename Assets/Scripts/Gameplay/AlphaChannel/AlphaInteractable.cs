@@ -9,6 +9,7 @@ public class AlphaInteractable : MonoBehaviour
     public void Unhide()
     {
         _isHiden = false;
+        GetComponent<BoxCollider2D>().enabled = true;
     }
 
     public void EnableInteraction()

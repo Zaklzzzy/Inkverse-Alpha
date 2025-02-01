@@ -1,10 +1,15 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class AlphaInteractive : MonoBehaviour
 {
+    [SerializeField, Range(0, 10)] private int _bulletsCapacity = 5;
     [SerializeField, Range(0, 10)] private int _bulletsCount = 5;
+    [SerializeField, Range(0, 1)] private float _filledPart;
     [SerializeField] private ParticleSystem _gunParticles;
+    private bool _isReloading = false;
+
     private AlphaInteractable _currentInteractable;
 
     private GameInput _input;
@@ -67,7 +72,7 @@ public class AlphaInteractive : MonoBehaviour
     #region Alpha Gun
     public void Shot(InputAction.CallbackContext context)
     {
-        if(context.started)
+        if (context.started)
         {
             if (_bulletsCount == 0) return;
 
@@ -84,9 +89,33 @@ public class AlphaInteractive : MonoBehaviour
                 if (interactable != null && interactable.GetHideState()) interactable.Unhide();
             }
 
-            UIManager.Instance.ShowBulletCount(_bulletsCount);
             _bulletsCount--;
+
+            _filledPart = (float)_bulletsCount / _bulletsCapacity;
+            UIManager.Instance.ShowBulletCount(_filledPart);
+            
+            if (!_isReloading)
+            {
+                StartCoroutine(Reloading());
+                _isReloading = true;
+            }
         }
+    }
+
+    private IEnumerator Reloading()
+    {
+        float timer = 0f;
+
+        while (timer < 5f)
+        {
+            timer += Time.deltaTime;
+            UIManager.Instance.ShowBulletCount(_filledPart + (timer / 5f));
+            _filledPart = _filledPart + (timer / 5f) * 0.1f;
+            yield return null;
+        }
+
+        if(_bulletsCount+1 <= _bulletsCapacity) _bulletsCount++;
+        _isReloading = false;
     }
     #endregion
 }

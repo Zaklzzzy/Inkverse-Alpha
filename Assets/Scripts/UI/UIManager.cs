@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Gameplay")]
     [SerializeField] private Image _dashCooldownImage;
-    [SerializeField] private Image[] _bullets;
+    [SerializeField] private Image _bulletFiller;
 
     private void Awake()
     {
@@ -43,12 +43,9 @@ public class UIManager : MonoBehaviour
         _dashCooldownImage.fillAmount = 0f;
     }
 
-    public void ShowBulletCount(int count)
+    public void ShowBulletCount(float count)
     {
-        for(int i = count - 1; i < _bullets.Length; i++)
-        {
-            _bullets[i].color = Color.black;
-        }
+        _bulletFiller.fillAmount = Mathf.Clamp01(count);
     }
     #endregion
 
