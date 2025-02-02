@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     private bool _isDashing = false;
 
     private GameInput _input;
-    
+
     private void Awake()
     {
         _input = new GameInput();
@@ -65,11 +65,11 @@ public class PlayerController : MonoBehaviour
 
     private void Flip(float moveDirection)
     {
-        if(moveDirection < 0)
+        if (moveDirection < 0)
         {
             _player.transform.rotation = Quaternion.Euler(0, 180, 0);
         }
-        else if(moveDirection > 0)
+        else if (moveDirection > 0)
         {
             _player.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour
 
         _isDashing = true;
         float originalGravity = _rb.gravityScale;
-        _rb.gravityScale = originalGravity/3;
+        _rb.gravityScale = originalGravity / 3;
         _playerAnim.SetTrigger("Dash");
         _rb.velocity = new Vector2(transform.localScale.x * _dashSpeed * (_player.transform.rotation.y == 0 ? 1 : -1), 0);
 

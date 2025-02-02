@@ -91,7 +91,7 @@ public class AlphaInteractive : MonoBehaviour
             _bulletsCount--;
 
             UIManager.Instance.ShowBulletCount(_bulletsCount);
-            if(_bulletsCount == _bulletsCapacity-1) TryReload();
+            if (_bulletsCount == _bulletsCapacity - 1) TryReload();
         }
     }
 
