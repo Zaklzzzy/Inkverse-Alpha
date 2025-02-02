@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _bulletText;
     [Header("UI")]
     [SerializeField] private GameObject _pauseContainer;
+    [SerializeField] private Slider _volumeSlider;
 
     private void Awake()
     {
@@ -24,6 +25,17 @@ public class UIManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void OnEnable()
+    {
+        _volumeSlider.onValueChanged.AddListener(delegate { ChangeVolume(); });
+        ChangeVolume();
+    }
+
+    private void OnDisable()
+    {
+        _volumeSlider.onValueChanged.RemoveAllListeners();
     }
 
     #region Gameplay
@@ -61,6 +73,11 @@ public class UIManager : MonoBehaviour
     public void ShowPause(bool enabledState)
     {
         _pauseContainer.SetActive(enabledState);
+    }
+
+    public void ChangeVolume()
+    {
+        AudioManager.Instance.SetVolume(_volumeSlider.value);
     }
     #endregion
 }
