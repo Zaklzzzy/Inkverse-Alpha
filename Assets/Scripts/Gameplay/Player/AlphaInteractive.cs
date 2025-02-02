@@ -33,9 +33,9 @@ public class AlphaInteractive : MonoBehaviour
         var hit = Physics2D.OverlapPoint(cursorPosition);
 
         if (hit != null)
-        { 
+        {
             var interactable = hit.transform.GetComponent<AlphaInteractable>();
-            if(interactable != null)
+            if (interactable != null)
             {
                 _currentInteractable = interactable;
                 SelectObject();
@@ -54,7 +54,7 @@ public class AlphaInteractive : MonoBehaviour
         {
             var scrollInput = context.ReadValue<float>();
 
-            if(!_currentInteractable.GetHideState()) _currentInteractable.SetAlphaValue(scrollInput == -1 ? -0.097f : 0.097f );
+            if (!_currentInteractable.GetHideState()) _currentInteractable.SetAlphaValue(scrollInput == -1 ? -0.097f : 0.097f);
         }
     }
 
@@ -93,29 +93,34 @@ public class AlphaInteractive : MonoBehaviour
 
             _filledPart = (float)_bulletsCount / _bulletsCapacity;
             UIManager.Instance.ShowBulletCount(_filledPart);
-            
-            if (!_isReloading)
-            {
-                StartCoroutine(Reloading());
-                _isReloading = true;
-            }
+
+            if (!_isReloading) { StartCoroutine(Reloading(false)); }
         }
     }
 
-    private IEnumerator Reloading()
+    private IEnumerator Reloading(bool isRecursing)
     {
-        float timer = 0f;
+        _isReloading = true;
 
-        while (timer < 5f)
+        float timer = 0f;
+        float reloadTime = 4f;
+
+        while (timer < reloadTime)
         {
             timer += Time.deltaTime;
-            UIManager.Instance.ShowBulletCount(_filledPart + (timer / 5f));
-            _filledPart = _filledPart + (timer / 5f) * 0.1f;
+            UIManager.Instance.ShowBulletCount(_filledPart + (timer / reloadTime) * 0.2f);
             yield return null;
+
         }
 
-        if(_bulletsCount+1 <= _bulletsCapacity) _bulletsCount++;
-        _isReloading = false;
+        if (_bulletsCount + 1 <= _bulletsCapacity)
+        {
+            _bulletsCount++;
+            _filledPart = (float)_bulletsCount / _bulletsCapacity;
+            StartCoroutine(Reloading(true));
+        }
+
+        if (!isRecursing) _isReloading = false;
     }
     #endregion
 }
