@@ -10,6 +10,8 @@ public class UIManager : MonoBehaviour
     [Header("Gameplay")]
     [SerializeField] private Image _dashCooldownImage;
     [SerializeField] private Image _bulletFiller;
+    [Header("UI")]
+    [SerializeField] private GameObject _pauseContainer;
 
     private void Awake()
     {
@@ -50,5 +52,9 @@ public class UIManager : MonoBehaviour
     #endregion
 
     #region UI
+    public void ShowPause(bool enabledState)
+    {
+        _pauseContainer.SetActive(enabledState);
+    }
     #endregion
 }

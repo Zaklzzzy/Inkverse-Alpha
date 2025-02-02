@@ -74,7 +74,7 @@ public class AlphaInteractive : MonoBehaviour
     {
         if (context.started)
         {
-            if (_bulletsCount == 0) return;
+            if (_bulletsCount == 0 || Time.timeScale == 0f) return;
 
             _gunParticles.Play();
 
