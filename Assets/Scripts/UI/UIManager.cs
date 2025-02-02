@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ public class UIManager : MonoBehaviour
     [Header("Gameplay")]
     [SerializeField] private Image _dashCooldownImage;
     [SerializeField] private Image _bulletFiller;
+    [SerializeField] private TextMeshProUGUI _bulletText;
     [Header("UI")]
     [SerializeField] private GameObject _pauseContainer;
 
@@ -45,9 +47,13 @@ public class UIManager : MonoBehaviour
         _dashCooldownImage.fillAmount = 0f;
     }
 
-    public void ShowBulletCount(float count)
+    public void ShowBulletFill(float count)
     {
         _bulletFiller.fillAmount = Mathf.Clamp01(count);
+    }
+    public void ShowBulletCount(int count)
+    {
+        _bulletText.text = "x" + count;
     }
     #endregion
 

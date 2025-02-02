@@ -4,9 +4,8 @@ using UnityEngine.InputSystem;
 
 public class AlphaInteractive : MonoBehaviour
 {
-    [SerializeField, Range(0, 10)] private int _bulletsCapacity = 5;
-    [SerializeField, Range(0, 10)] private int _bulletsCount = 5;
-    [SerializeField, Range(0, 1)] private float _filledPart;
+    [SerializeField] private int _bulletsCapacity = 5;
+    [SerializeField, Range(0, 5)] private int _bulletsCount = 5;
     [SerializeField] private ParticleSystem _gunParticles;
     private bool _isReloading = false;
 
@@ -91,36 +90,38 @@ public class AlphaInteractive : MonoBehaviour
 
             _bulletsCount--;
 
-            _filledPart = (float)_bulletsCount / _bulletsCapacity;
-            UIManager.Instance.ShowBulletCount(_filledPart);
-
-            if (!_isReloading) { StartCoroutine(Reloading(false)); }
+            UIManager.Instance.ShowBulletCount(_bulletsCount);
+            if(_bulletsCount == _bulletsCapacity-1) TryReload();
         }
     }
 
-    private IEnumerator Reloading(bool isRecursing)
+    private void TryReload()
+    {
+        if (!_isReloading)
+        {
+            StartCoroutine(Reloading());
+        }
+    }
+
+    private IEnumerator Reloading()
     {
         _isReloading = true;
 
         float timer = 0f;
-        float reloadTime = 4f;
+        float reloadTime = 5f;
 
         while (timer < reloadTime)
         {
             timer += Time.deltaTime;
-            UIManager.Instance.ShowBulletCount(_filledPart + (timer / reloadTime) * 0.2f);
+            UIManager.Instance.ShowBulletFill(timer / reloadTime);
             yield return null;
-
         }
 
-        if (_bulletsCount + 1 <= _bulletsCapacity)
-        {
-            _bulletsCount++;
-            _filledPart = (float)_bulletsCount / _bulletsCapacity;
-            StartCoroutine(Reloading(true));
-        }
+        _bulletsCount++;
+        UIManager.Instance.ShowBulletCount(_bulletsCount);
+        if (_bulletsCount != _bulletsCapacity) StartCoroutine(Reloading());
 
-        if (!isRecursing) _isReloading = false;
+        _isReloading = false;
     }
     #endregion
 }
