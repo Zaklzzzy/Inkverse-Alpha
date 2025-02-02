@@ -78,6 +78,7 @@ public class AlphaInteractive : MonoBehaviour
             _gunParticles.Play();
 
             Vector2 cursorPosition = Camera.main.ScreenToWorldPoint(_input.Gameplay.Cursor.ReadValue<Vector2>());
+            UIManager.Instance.ShotEffectAnimation(cursorPosition);
             var radius = 1.75f;
 
             Collider2D[] colliders = Physics2D.OverlapCircleAll(cursorPosition, radius);

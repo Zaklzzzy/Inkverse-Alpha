@@ -1,7 +1,9 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -12,8 +14,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image _dashCooldownImage;
     [SerializeField] private Image _bulletFiller;
     [SerializeField] private TextMeshProUGUI _bulletText;
+    [SerializeField] private GameObject _shotEffect;
     [Header("UI")]
     [SerializeField] private GameObject _pauseContainer;
+    [SerializeField] private GameObject _mainMenuContainer;
     [SerializeField] private Slider _volumeSlider;
 
     private void Awake()
@@ -25,6 +29,8 @@ public class UIManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        GoToMenu();
     }
 
     private void OnEnable()
@@ -39,11 +45,6 @@ public class UIManager : MonoBehaviour
     }
 
     #region Gameplay
-    public void ActivateCursor(bool activeState)
-    {
-        Cursor.visible = activeState;
-    }
-
     public IEnumerator CooldownIndicate(float cooldownDuration)
     {
         float timer = 0f;
@@ -59,6 +60,7 @@ public class UIManager : MonoBehaviour
         _dashCooldownImage.fillAmount = 0f;
     }
 
+    #region ShotSystem
     public void ShowBulletFill(float count)
     {
         _bulletFiller.fillAmount = Mathf.Clamp01(count);
@@ -67,13 +69,62 @@ public class UIManager : MonoBehaviour
     {
         _bulletText.text = "x" + count;
     }
+
+    public void ShotEffectAnimation(Vector2 position)
+    {
+        var duration = 1f;
+        _shotEffect.gameObject.SetActive(true);
+        _shotEffect.transform.position = position;
+        _shotEffect.transform.DOShakeScale(duration);
+        StartCoroutine(ShotEffectHide(duration));
+    }
+    private IEnumerator ShotEffectHide(float duration)
+    {
+        float timer = 0f;
+
+        var color = _shotEffect.GetComponent<SpriteRenderer>().color;
+        _shotEffect.GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, 1f);
+
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            _shotEffect.GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, 1f - timer / duration);
+            yield return null;
+        }
+
+        _shotEffect.GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, 0f);
+    }
+    #endregion
+
     #endregion
 
     #region UI
+
+    #region Pause
     public void ShowPause(bool enabledState)
     {
         _pauseContainer.SetActive(enabledState);
     }
+    public void GoToMenu()
+    {
+        _mainMenuContainer.SetActive(true);
+        _pauseContainer.SetActive(false);
+        Time.timeScale = 0f;
+    }
+    #endregion
+
+    #region Main Menu
+    public void StartGame()
+    {
+        _mainMenuContainer.SetActive(false);
+        _pauseContainer.SetActive(false);
+        Time.timeScale = 1f;
+    }
+    public void Exit()
+    {
+        Application.Quit();
+    }
+    #endregion
 
     public void ChangeVolume()
     {
