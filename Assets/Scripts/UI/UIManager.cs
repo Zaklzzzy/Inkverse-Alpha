@@ -75,7 +75,7 @@ public class UIManager : MonoBehaviour
         var duration = 1f;
         _shotEffect.gameObject.SetActive(true);
         _shotEffect.transform.position = position;
-        _shotEffect.transform.DOShakeScale(duration);
+        _shotEffect.transform.DOShakeScale(duration, 0.8f, 4, 25f);
         StartCoroutine(ShotEffectHide(duration));
     }
     private IEnumerator ShotEffectHide(float duration)
@@ -110,6 +110,7 @@ public class UIManager : MonoBehaviour
         _mainMenuContainer.SetActive(true);
         _pauseContainer.SetActive(false);
         Time.timeScale = 0f;
+        Cursor.visible = true;
     }
     #endregion
 
@@ -119,6 +120,7 @@ public class UIManager : MonoBehaviour
         _mainMenuContainer.SetActive(false);
         _pauseContainer.SetActive(false);
         Time.timeScale = 1f;
+        Cursor.visible = false;
     }
     public void Exit()
     {
